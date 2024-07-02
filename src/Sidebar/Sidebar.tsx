@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import "./Sidebar.css";
 import SidebarComponent from "./SidebarComponent";
 import { useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { asyncLogout } from "../store/features/Auth";
-import { AppDispatch } from "../store/store";
+import { AppDispatch, RootState } from "../store/store";
 
 const Sidebar: React.FC = () => {
+  const user = useSelector((state: RootState) => state.authUser);
   const location = useLocation();
   const [currentBoard, setCurrentBoard] = useState(
     location.pathname.substring(1, location.pathname.length)
@@ -21,12 +22,13 @@ const Sidebar: React.FC = () => {
   }
   return (
     <div className="flex flex-col items-start gap-5 h-[100vh] bg-gray-100 w-1/5 ">
+      <div></div>
       <SidebarComponent
         path="/dashboard"
         Title="Dashboard"
         classValue={
           "flex w-full text-left p-4 px-2 slide " +
-          (currentBoard === "dashboard"
+          (currentBoard.includes("dashboard")
             ? " bg-primary-blue text-white px-4 "
             : " ")
         }
@@ -37,7 +39,7 @@ const Sidebar: React.FC = () => {
         Title="Products"
         classValue={
           "flex w-full text-left p-4 px-2 slide " +
-          (currentBoard === "products"
+          (currentBoard.includes("products")
             ? " bg-primary-blue text-white px-4 "
             : " ")
         }
@@ -48,7 +50,7 @@ const Sidebar: React.FC = () => {
         Title="Categories"
         classValue={
           "flex w-full text-left p-4 px-2 slide " +
-          (currentBoard === "categories"
+          (currentBoard.includes("categories")
             ? " bg-primary-blue text-white px-4 "
             : " ")
         }
@@ -59,7 +61,7 @@ const Sidebar: React.FC = () => {
         Title="Orders"
         classValue={
           "flex w-full text-left p-4 px-2 slide " +
-          (currentBoard === "orders"
+          (currentBoard.includes("orders")
             ? " bg-primary-blue text-white px-4 "
             : " ")
         }
@@ -70,7 +72,7 @@ const Sidebar: React.FC = () => {
         Title="Settings"
         classValue={
           "flex w-full text-left p-4 px-2 slide " +
-          (currentBoard === "settings"
+          (currentBoard.includes("settings")
             ? " bg-primary-blue text-white px-4 "
             : " ")
         }
@@ -84,7 +86,18 @@ const Sidebar: React.FC = () => {
           Logout
         </button>
       </div>
-    </div>
+        <div className="w-full ">
+          <div className="flex items-center justify-center mx-1 rounded-[1rem]">
+            <img src={user.profile} className="h-[70px] rounded-full" />
+          </div>
+          <div className="flex items-center justify-center w-full text-center">
+            <div className="mx-1 flex flex-col items-center">
+              {user.name}
+              <div className="text-[12px] text-gray-500">{user.email}</div>
+            </div>
+          </div>
+        </div>
+      </div>
   );
 };
 

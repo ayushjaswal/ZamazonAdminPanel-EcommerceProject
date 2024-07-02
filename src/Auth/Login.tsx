@@ -3,19 +3,20 @@ import "./auth.css";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncAuthSlice, asyncSessionSlice } from "../store/features/Auth";
 import { AppDispatch, RootState } from "../store/store";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const loggedInUser = useSelector((state: RootState) => state.authUser.email);
   const navigate = useNavigate();
-
+  const location = useLocation();
   useEffect(() => {
     function checkLogin() {
       dispatch(asyncSessionSlice());
       if (loggedInUser) {
-        navigate("/dashboard");
+        const redirectTo = location.state?.from?.pathname || '/dashboard';
+        navigate(redirectTo);
       }
     }
 

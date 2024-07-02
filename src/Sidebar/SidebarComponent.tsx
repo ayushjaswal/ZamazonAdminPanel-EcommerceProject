@@ -23,13 +23,13 @@ const SidebarComponent = ({
       onClick={() => setCurrentBoard(Title.toLowerCase())}
       className={classValue}
     >
-      {path === "/dashboard" ? (
+      {path.includes("dashboard") ? (
         <DashboardRoundedIcon className="mx-2" />
-      ) : path === "/categories" ? (
+      ) : path.includes("categories") ? (
         <CategoryRoundedIcon className="mx-2" />
-      ) : path === "/orders" ? (
+      ) : path.includes("orders") ? (
         <ReceiptLongRoundedIcon className="mx-2" />
-      ) : path === "/products" ? (
+      ) : path.includes("products") ? (
         <ShoppingCartRoundedIcon className="mx-2" />
       ) : (
         <Settings className="mx-2" />

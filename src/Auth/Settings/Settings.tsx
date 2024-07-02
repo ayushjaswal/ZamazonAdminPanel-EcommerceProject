@@ -5,10 +5,10 @@ const Settings = () => {
   return (
     <div>
       <div className="w-full">
-        <Navbar />
         <div className="flex">
           <Sidebar />
-          Settings
+          <div className="w-full">Settings</div>
+          
         </div>
       </div>
     </div>

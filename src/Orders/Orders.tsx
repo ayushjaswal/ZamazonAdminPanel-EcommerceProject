@@ -5,10 +5,11 @@ const Orders: React.FC = () => {
   return (
     <div>
       <div className="w-full">
-        <Navbar />
         <div className="flex">
           <Sidebar />
+          <div className="w-full">
           Orders
+            </div>
         </div>
       </div>
     </div>

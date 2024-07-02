@@ -5,10 +5,9 @@ const Dashboard: React.FC = () => {
   return (
     <div>
       <div className="w-full">
-        <Navbar />
-        <div className="flex">
+        <div className="flex ">
           <Sidebar />
-          Dashboard
+          <div className="w-full">Dashboard</div>
         </div>
       </div>
     </div>

@@ -11,6 +11,8 @@ import Settings from "./Auth/Settings/Settings.tsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ProtectedRoute from "./ProtectedRoute.tsx";
 import Login from "./Auth/Login.tsx";
+import NewProduct from "./Products/New Product/NewProduct.tsx";
+import EditProduct from "./Products/Edit Product/EditProduct.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -61,6 +63,22 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Settings />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "products/newproduct",
+    element: (
+      <ProtectedRoute>
+        <NewProduct />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "products/editproduct/:id",
+    element: (
+      <ProtectedRoute>
+        <EditProduct />
       </ProtectedRoute>
     ),
   },

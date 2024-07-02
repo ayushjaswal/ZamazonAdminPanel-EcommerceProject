@@ -2,14 +2,11 @@ import { RootState } from "../store/store";
 import { useSelector } from "react-redux";
 import React from "react";
 
-
 const Navbar: React.FC = () => {
   const user = useSelector((state: RootState) => state.authUser);
   return (
     <nav className="p-4 flex flex-row items-center justify-between border-b-[1px] border-gray-300 h-[3rem]">
-      <div>
-
-      </div>
+      <div></div>
       <div className="flex items-center">
         <div className="mx-1 flex flex-col items-end">
           {user.name}

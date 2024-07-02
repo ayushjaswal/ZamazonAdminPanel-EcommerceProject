@@ -1,12 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { path } from "../../variables";
-
-export interface AuthState {
-  email: string;
-  name: string;
-  profile: string;
-}
+import { AuthState } from "../../types/types";
 
 const initialState: AuthState = {
   email: "",
@@ -57,7 +52,7 @@ export const asyncLogout = createAsyncThunk("auth/asyncLogout", async () => {
 });
 
 export const AuthSlice = createSlice({
-  name: "cartCounter",
+  name: "AuthSlice",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
