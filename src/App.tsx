@@ -13,6 +13,7 @@ import ProtectedRoute from "./ProtectedRoute.tsx";
 import Login from "./Auth/Login.tsx";
 import NewProduct from "./Products/New Product/NewProduct.tsx";
 import EditProduct from "./Products/Edit Product/EditProduct.tsx";
+import EditCategory from "./Categories/Edit Category/EditCategory.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -82,8 +83,14 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
-  // ],
-  // },
+  {
+    path: "categories/edit-category/:id",
+    element: (
+      <ProtectedRoute>
+        <EditCategory />
+      </ProtectedRoute>
+    ),
+  },
 ]);
 const googleClientId = process.env.REACT_APP_OAUTH_CLIENT_ID!;
 function App() {

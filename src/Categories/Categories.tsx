@@ -8,9 +8,14 @@ import {
 import axios from "axios";
 import { path } from "../variables";
 import { Toaster, toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Categories: React.FC = () => {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState<CategoriesFormData[]>([]);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [beingDeleted, setBeingDeleted] = useState("");
 
   const [formData, setFormData] = useState<CategoriesFormData>({
     CategoryName: "",
@@ -71,6 +76,8 @@ const Categories: React.FC = () => {
   }
 
   async function handleDelete(id: string) {
+    setBeingDeleted(id);
+    setIsDeleting(true);
     try {
       const config = {};
       const res = await axios.delete(
@@ -86,6 +93,8 @@ const Categories: React.FC = () => {
     } catch (err) {
       console.log(err);
     }
+    setIsDeleting(true);
+    setBeingDeleted("");
   }
 
   function handleParentAndProperties(ev: React.ChangeEvent<HTMLSelectElement>) {
@@ -281,20 +290,38 @@ const Categories: React.FC = () => {
                           ? (category.ParentCategory as CategoriesFormData)
                               .CategoryName
                           : categories.find(
-                              (cat) =>
-                                cat._id ===
-                                category.ParentCategory
+                              (cat) => cat._id === category.ParentCategory
                             )?.CategoryName || "No Parent Category"}
                       </td>
                       <td className="flex border-none gap-2">
-                        <button className="btn bg-gray-100 hover:bg-gray-200">
+                        <button
+                          onClick={() =>
+                            navigate(
+                              `/categories/edit-category/${category._id}`
+                            )
+                          }
+                          className="btn bg-gray-100 hover:bg-gray-200"
+                        >
                           Edit
                         </button>
                         <button
                           onClick={() => handleDelete(category._id!)}
                           className="btn bg-red-100 hover:bg-red-200"
+                          disabled={isDeleting}
                         >
-                          Delete
+                          <div className="">
+                            {isDeleting && beingDeleted === category._id ? (
+                              <div className="w-full">
+                                <ClipLoader
+                                  size={24}
+                                  color="red"
+                                  speedMultiplier={0.5}
+                                />
+                              </div>
+                            ) : (
+                              "Delete"
+                            )}
+                          </div>
                         </button>
                       </td>
                     </tr>

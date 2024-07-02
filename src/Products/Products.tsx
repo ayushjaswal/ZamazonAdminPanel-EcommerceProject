@@ -2,13 +2,18 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import "./products.css";
 import { useNavigate } from "react-router-dom";
-import { ProductFormData, config } from "../types/types";
+import { ProductFormData, ProductImage, config } from "../types/types";
 import axios from "axios";
 import { path } from "../variables";
 import { Toaster, toast } from "sonner";
+import { deleteObject, ref } from "firebase/storage";
+import { storage } from "../firebase";
+import ClipLoader from "react-spinners/ClipLoader";
 const Products: React.FC = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState<ProductFormData[]>();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [beingDeleted, setBeingDeleted] = useState("");
   useEffect(() => {
     async function getProducts() {
       const res = await axios.get(`${path}/product`, config);
@@ -24,7 +29,21 @@ const Products: React.FC = () => {
   }
 
   async function handleProductDelete(value: string) {
+    setIsDeleting(true);
+    setBeingDeleted(value);
     try {
+      let images: ProductImage[];
+      for (let index = 0; index < products!.length; index++) {
+        if (products![index]._id == value) {
+          images = products![index].images;
+        }
+      }
+      if (images!.length > 0) {
+        for (let index = 0; index < images!.length; index++) {
+          const storageRef = ref(storage, `images/${images![index].imageName}`);
+          await deleteObject(storageRef);
+        }
+      }
       const res = await axios.delete(`${path}/product/${value}`);
       if (res.data) {
         setProducts((prev) => prev?.filter((prod) => prod._id !== value));
@@ -35,6 +54,8 @@ const Products: React.FC = () => {
     } catch (err) {
       toast.error("Failed to deleted product");
     }
+    setIsDeleting(false);
+    setBeingDeleted("");
   }
 
   return (
@@ -84,15 +105,26 @@ const Products: React.FC = () => {
                       <td className="flex border-none gap-2">
                         <button
                           onClick={() => handleEditProduct(product._id!)}
-                          className="btn bg-gray-100 hover:bg-gray-200"
+                          className="btn bg-gray-100 hover:bg-gray-200 w-1/2"
                         >
                           Edit
                         </button>
                         <button
                           onClick={() => handleProductDelete(product._id!)}
-                          className="btn bg-red-100 hover:bg-red-200"
+                          className="btn bg-red-100 hover:bg-red-200 flex items-center justify-center h-full w-1/2"
+                          disabled={isDeleting}
                         >
-                          Delete
+                          {isDeleting && beingDeleted === product._id? (
+                            <div className="w-full">
+                              <ClipLoader
+                                size={24}
+                                color="red"
+                                speedMultiplier={0.5}
+                              />
+                            </div>
+                          ) : (
+                            "Delete"
+                          )}
                         </button>
                       </td>
                     </tr>

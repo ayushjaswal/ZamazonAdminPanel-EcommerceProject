@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { path } from "../../variables";
-import { AuthState } from "../../types/types";
+import { AuthState, config } from "../../types/types";
 
 const initialState: AuthState = {
   email: "",
@@ -13,13 +13,6 @@ export const asyncAuthSlice = createAsyncThunk(
   "auth/asyncAuthSlice",
   async (token: string, thunkAPI) => {
     try {
-      const config = {
-        host: `${path}`,
-        headers: {
-          "Access-Control-Allow-Origin": `${path}`,
-        },
-        withCredentials: true,
-      };
       const response = await axios.post(`${path}/login`, { token }, config);
       return response.data;
     } catch (error) {
@@ -44,7 +37,7 @@ export const asyncSessionSlice = createAsyncThunk(
 
 export const asyncLogout = createAsyncThunk("auth/asyncLogout", async () => {
   try {
-    const response = await axios.get(`${path}/logout`);
+    const response = await axios.get(`${path}/logout`, config);
     return response.data;
   } catch (error) {
     return error;
