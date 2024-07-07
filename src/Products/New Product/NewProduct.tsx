@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Navbar from "../../Navbar/Navbar";
 import Sidebar from "../../Sidebar/Sidebar";
 import "../products.css";
 import {
@@ -105,14 +104,14 @@ const NewProduct = () => {
   async function handleImageDelete(imageUrl: ProductImage) {
     const storageRef = ref(storage, `images/${imageUrl.imageName}`);
 
+    setFormData((prev) => ({
+      ...prev,
+      images: formData.images.filter(
+        (image) => image.imageName !== imageUrl.imageName
+      ),
+    }));
     await deleteObject(storageRef)
       .then(() => {
-        setFormData((prev) => ({
-          ...prev,
-          images: formData.images.filter(
-            (image) => image.imageName !== imageUrl.imageName
-          ),
-        }));
         toast.success("Image deleted successfully!");
       })
       .catch((err) => {
@@ -126,16 +125,19 @@ const NewProduct = () => {
   ) {
     e.preventDefault();
     try {
-      const res = await axios.post(`${path}/product/new-product`, formData, config);
-      console.log(res)
-      if(res.data){
+      const res = await axios.post(
+        `${path}/product/new-product`,
+        formData,
+        config
+      );
+      console.log(res);
+      if (res.data) {
         toast.success("Successfully added new product");
-        setTimeout(()=>{
-          navigate("/products")
-        }, 500)
-      }
-      else{
-        toast.error("Failed to add new product")
+        setTimeout(() => {
+          navigate("/products");
+        }, 500);
+      } else {
+        toast.error("Failed to add new product");
       }
     } catch (err) {
       toast.error("Failed to add new product");

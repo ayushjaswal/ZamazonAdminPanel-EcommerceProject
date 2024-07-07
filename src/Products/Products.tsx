@@ -38,6 +38,7 @@ const Products: React.FC = () => {
           images = products![index].images;
         }
       }
+      setProducts((prev) => prev?.filter((prod) => prod._id !== value));
       if (images!.length > 0) {
         for (let index = 0; index < images!.length; index++) {
           const storageRef = ref(storage, `images/${images![index].imageName}`);
@@ -46,7 +47,6 @@ const Products: React.FC = () => {
       }
       const res = await axios.delete(`${path}/product/${value}`);
       if (res.data) {
-        setProducts((prev) => prev?.filter((prod) => prod._id !== value));
         toast.success("Product deleted successfully");
       } else {
         toast.error("Failed to deleted product");
@@ -114,7 +114,7 @@ const Products: React.FC = () => {
                           className="btn bg-red-100 hover:bg-red-200 flex items-center justify-center h-full w-1/2"
                           disabled={isDeleting}
                         >
-                          {isDeleting && beingDeleted === product._id? (
+                          {isDeleting && beingDeleted === product._id ? (
                             <div className="w-full">
                               <ClipLoader
                                 size={24}

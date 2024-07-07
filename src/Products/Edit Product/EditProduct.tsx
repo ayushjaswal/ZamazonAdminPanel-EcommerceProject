@@ -49,7 +49,7 @@ const EditProduct = () => {
 
   useEffect(() => {
     async function getProductDetail() {
-      const res = await axios.get(`${path}/product/${id}`, config);
+      const res = await axios.get(`${path}/product/get-product/${id}`, config);
       if (res.data) {
         setFormData(res.data);
       }
@@ -117,14 +117,14 @@ const EditProduct = () => {
   async function handleImageDelete(imageUrl: ProductImage) {
     const storageRef = ref(storage, `images/${imageUrl.imageName}`);
 
+    setFormData((prev) => ({
+      ...prev,
+      images: formData.images.filter(
+        (image) => image.imageName !== imageUrl.imageName
+      ),
+    }));
     await deleteObject(storageRef)
       .then(() => {
-        setFormData((prev) => ({
-          ...prev,
-          images: formData.images.filter(
-            (image) => image.imageName !== imageUrl.imageName
-          ),
-        }));
         toast.success("Image deleted successfully!");
       })
       .catch((err) => {
@@ -301,7 +301,7 @@ const EditProduct = () => {
                 Save
               </button>
               <button
-                onClick={()=>navigate("/products")}
+                onClick={() => navigate("/products")}
                 style={{ width: "6rem" }}
                 className="btn bg-red-100 hover:bg-red-200"
               >
