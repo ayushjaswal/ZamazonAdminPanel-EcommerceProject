@@ -7,13 +7,13 @@ import Dashboard from "./Dashboard/Dashboard.tsx";
 import Products from "./Products/Products.tsx";
 import Orders from "./Orders/Orders.tsx";
 import Categories from "./Categories/Categories.tsx";
-import Settings from "./Auth/Settings/Settings.tsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ProtectedRoute from "./ProtectedRoute.tsx";
 import Login from "./Auth/Login.tsx";
 import NewProduct from "./Products/New Product/NewProduct.tsx";
 import EditProduct from "./Products/Edit Product/EditProduct.tsx";
-import EditCategory from "./Categories/Edit Category/EditCategory.tsx";
+import EditCategory from "./Categories/Edit Category/EditCategory.tsx"; 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -60,14 +60,6 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "settings",
-    element: (
-      <ProtectedRoute>
-        <Settings />
-      </ProtectedRoute>
-    ),
-  },
-  {
     path: "products/newproduct",
     element: (
       <ProtectedRoute>
@@ -98,7 +90,9 @@ function App() {
     <React.StrictMode>
       <GoogleOAuthProvider clientId={googleClientId}>
         <Provider store={store}>
-          <RouterProvider router={router} />
+          <RouterProvider router={router}>
+          </RouterProvider>
+            
         </Provider>
       </GoogleOAuthProvider>
     </React.StrictMode>

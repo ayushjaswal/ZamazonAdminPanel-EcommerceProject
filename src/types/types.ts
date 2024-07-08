@@ -3,7 +3,7 @@ import { path } from "../variables";
 export interface CategoriesProperties {
   propertyName: string;
   propertyValue: string | string[];
-  parent: boolean
+  parent: boolean;
 }
 
 export interface CategoriesFormData {
@@ -28,7 +28,7 @@ export interface ProductImage {
 export interface ProductFormData {
   productName: string;
   productDescription: string;
-  category?: string | null;
+  category?: string | CategoriesFormData;
   images: ProductImage[];
   price: number;
   properties?: object[];
@@ -42,3 +42,23 @@ export const config = {
   },
   withCredentials: true,
 };
+
+export interface OrderProp {
+  _id: string;
+  streetAddress: string;
+  country: string;
+  products: CartProp[];
+  postalcode: string;
+  city: string;
+  customer: string;
+  paid: boolean;
+  totalAmount: number;
+  createdAt?: string;
+
+}
+
+export interface CartProp {
+  product: string;
+  quantity: number;
+  _id: string;
+}

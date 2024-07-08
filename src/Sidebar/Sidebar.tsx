@@ -5,7 +5,6 @@ import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncLogout } from "../store/features/Auth";
 import { AppDispatch, RootState } from "../store/store";
-
 const Sidebar: React.FC = () => {
   const user = useSelector((state: RootState) => state.authUser);
   const location = useLocation();
@@ -21,8 +20,7 @@ const Sidebar: React.FC = () => {
     }
   }
   return (
-    <div className="flex flex-col items-start gap-5 h-[100vh] bg-gray-100 w-1/5 ">
-      <div></div>
+    <div className="md:flex flex-col items-start hidden md:visible gap-5 h-[100vh] bg-gray-100 md:w-1/5 ">
       <SidebarComponent
         path="/dashboard"
         Title="Dashboard"
@@ -67,17 +65,6 @@ const Sidebar: React.FC = () => {
         }
         setCurrentBoard={setCurrentBoard}
       />
-      <SidebarComponent
-        path="/settings"
-        Title="Settings"
-        classValue={
-          "flex w-full text-left p-4 px-2 slide " +
-          (currentBoard.includes("settings")
-            ? " bg-primary-blue text-white px-4 "
-            : " ")
-        }
-        setCurrentBoard={setCurrentBoard}
-      />
       <div className="flex items-center w-full justify-center">
         <button
           onClick={() => handleLogout()}
@@ -86,18 +73,18 @@ const Sidebar: React.FC = () => {
           Logout
         </button>
       </div>
-        <div className="w-full ">
-          <div className="flex items-center justify-center mx-1 rounded-[1rem]">
-            <img src={user.profile} className="h-[70px] rounded-full" />
-          </div>
-          <div className="flex items-center justify-center w-full text-center">
-            <div className="mx-1 flex flex-col items-center">
-              {user.name}
-              <div className="text-[12px] text-gray-500">{user.email}</div>
-            </div>
+      <div className="w-full ">
+        <div className="flex items-center justify-center mx-1 rounded-[1rem]">
+          <img src={user.profile} className="h-[70px] rounded-full" />
+        </div>
+        <div className="flex items-center justify-center w-full text-center">
+          <div className="mx-1 flex flex-col items-center">
+            {user.name}
+            <div className="text-[12px] text-gray-500 break-words w-[100px]">{user.email}</div>
           </div>
         </div>
       </div>
+    </div>
   );
 };
 

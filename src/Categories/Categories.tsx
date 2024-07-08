@@ -10,6 +10,7 @@ import { path } from "../variables";
 import { Toaster, toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
+import Navbar from "../Navbar/Navbar";
 
 const Categories: React.FC = () => {
   const navigate = useNavigate();
@@ -139,10 +140,13 @@ const Categories: React.FC = () => {
   return (
     <div>
       <Toaster richColors position="bottom-center" />
+      <div className="md:hidden">
+        <Navbar />
+      </div>
       <div className="w-full">
         <div className="flex w-full">
           <Sidebar />
-          <div className="p-3 w-full overflow-y-auto h-[100vh]">
+          <div className="p-3 w-full overflow-y-auto h-[100vh] text-[12px] md:text-[1rem]">
             <h1>Categories</h1>
             <div className="productForm">
               <div className="flex gap-3 w-full">

@@ -9,6 +9,7 @@ import { Toaster, toast } from "sonner";
 import { deleteObject, ref } from "firebase/storage";
 import { storage } from "../firebase";
 import ClipLoader from "react-spinners/ClipLoader";
+import Navbar from "../Navbar/Navbar";
 const Products: React.FC = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState<ProductFormData[]>();
@@ -61,6 +62,9 @@ const Products: React.FC = () => {
   return (
     <div className="h-[100vh] ">
       <Toaster richColors position="bottom-center" />
+      <div className="visible md:hidden">
+        <Navbar />
+      </div>
       <div className="w-full">
         <div className="flex">
           <Sidebar />
@@ -76,12 +80,12 @@ const Products: React.FC = () => {
               </button>
             </div>
             <div className="w-full ">
-              <table className="basic ">
+              <table className="basic text-[10px] md:text-xl">
                 <thead>
                   <tr>
                     <td className="">Product Name</td>
                     <td className="">Description</td>
-                    <td className="">Images</td>
+                    <td className="hidden md:visible">Images</td>
                     <td className="">Cost</td>
                     <td className="">Actions</td>
                   </tr>
@@ -90,13 +94,16 @@ const Products: React.FC = () => {
                   {products?.map((product) => (
                     <tr>
                       <td className="max-w-1">{product.productName}</td>
-                      <td className="text-wrap break-words max-w-7">
+                      <td className="hidden md:visible text-wrap break-words max-w-7">
                         {product.productDescription.slice(0, 100)}...
                       </td>
-                      <td className="grid grid-cols-3 gap-2 border-none p-4">
+                      <td className="md:hidden text-wrap break-words max-w-7">
+                        {product.productDescription.slice(0, 20)}...
+                      </td>
+                      <td className="hidden md:visible md:grid grid-cols-3 gap-2 border-none p-4">
                         {product.images.map((image) => (
                           <img
-                            className="h-12 w-12 rounded-md shadow-md object-cover"
+                            className=" h-12 w-12 rounded-md shadow-md object-cover"
                             src={image.imageUrl}
                           />
                         ))}

@@ -202,7 +202,7 @@ const NewProduct = () => {
                 );
               })}
             </div>
-            <div>
+            <div className="overflow-x-scroll w-full ">
               <div>Photos</div>
               <div className="flex gap-2">
                 <ReactSortable
@@ -237,9 +237,9 @@ const NewProduct = () => {
                     <ClipLoader color="#d3f7c3" speedMultiplier={1} />
                   </div>
                 )}
-                <label className="flex cursor-pointer flex-col text-sm text-gray-500 items-center rounded-lg justify-center w-24 h-24 bg-gray-200 ml-2 hover:bg-gray-300 transition ease-in-out duration-200">
+                <label className="flex cursor-pointer flex-col text-sm text-gray-500 items-center rounded-lg justify-center w-24 h-24 bg-gray-200 ml-2 hover:bg-gray-300 transition ease-in-out duration-200 p-2">
                   <Upload />
-                  <div className="mt-1">Upload</div>
+                  <div className="mt-1 text-[10px] md:text-[1rem]">Upload</div>
                   <input
                     value={imageUpload}
                     onChange={uploadImage}
@@ -279,13 +279,22 @@ const NewProduct = () => {
                 }
               />
             </div>
-            <button
-              onClick={submitProductForm}
-              style={{ width: "6rem" }}
-              className="btn bg-green-100 hover:bg-green-200"
-            >
-              Save
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={submitProductForm}
+                style={{ width: "6rem" }}
+                className="btn bg-green-100 hover:bg-green-200"
+              >
+                Save
+              </button>
+              <button
+                onClick={()=>navigate("/products")}
+                style={{ width: "6rem" }}
+                className="btn bg-gray-100 hover:bg-gray-200"
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </div>

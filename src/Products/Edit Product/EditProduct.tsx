@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import Navbar from "../../Navbar/Navbar";
 import Sidebar from "../../Sidebar/Sidebar";
 import { Toaster, toast } from "sonner";
 import { useEffect, useState } from "react";
@@ -31,7 +30,7 @@ const EditProduct = () => {
     productDescription: "",
     productName: "",
     _id: "",
-    category: null,
+    category: "",
     properties: [],
   });
   const [categories, setCategories] = useState<CategoriesFormData[]>([]);
@@ -52,6 +51,7 @@ const EditProduct = () => {
       const res = await axios.get(`${path}/product/get-product/${id}`, config);
       if (res.data) {
         setFormData(res.data);
+        setSelectedCategory(res.data.category as CategoriesFormData);
       }
       console.log(res.data);
     }
@@ -182,6 +182,11 @@ const EditProduct = () => {
             <div className="w-full">
               <div>Categories </div>
               <select
+                value={
+                  typeof formData.category === "string"
+                    ? formData.category
+                    : formData.category?._id
+                }
                 onChange={handleSelectedCategory}
                 className="w-full py-2 px-2 outline-none input"
               >
@@ -194,7 +199,7 @@ const EditProduct = () => {
               </select>
             </div>
             <div>
-              {selectedCategory?.Properties.map((prop) => {
+              {selectedCategory?.Properties.map((prop, index) => {
                 return (
                   <div key={prop.propertyName}>
                     {prop.propertyName}
@@ -202,6 +207,7 @@ const EditProduct = () => {
                       onChange={(ev) =>
                         handlePropertyChange(prop.propertyName, ev.target.value)
                       }
+                      value={formData?.properties![index][prop?.propertyName]}
                       className="input"
                     >
                       <option>Not selected</option>

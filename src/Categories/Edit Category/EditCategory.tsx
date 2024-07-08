@@ -9,6 +9,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import Sidebar from "../../Sidebar/Sidebar";
+import Navbar from "../../Navbar/Navbar";
 
 const EditCategory = () => {
   const { id } = useParams();
@@ -109,7 +110,7 @@ const EditCategory = () => {
       if (res.data) {
         toast.success("Category updated!");
         setTimeout(() => {
-            navigate("/categories")
+          navigate("/categories");
         }, 500);
       } else {
         toast.error("Failed to update category!");
@@ -123,10 +124,13 @@ const EditCategory = () => {
   return (
     <div>
       <Toaster richColors position="bottom-center" />
+      <div className="md:hidden">
+        <Navbar />
+      </div>
       <div className="w-full">
         <div className="flex w-full">
           <Sidebar />
-          <div className="p-3 w-full overflow-y-auto h-[100vh]">
+          <div className="p-3 w-full overflow-y-auto h-[100vh] text-[10px] md:text-[1rem]">
             <h1>Categories</h1>
             <div className="productForm">
               <div className="flex gap-3 w-full">
